@@ -7,9 +7,9 @@ Variables: fg (point wind gust), prlst (precipitation)
 
 Hurricanes:
 - [x] Bob1
-- [ ] Bob7
-- [ ] TC01B
-- [ ] Akash
+- [x] Bob7
+- [x] TC01B
+- [x] Akash
 - [ ] Sidr
 - [ ] Rashmi
 - [ ] Aila
