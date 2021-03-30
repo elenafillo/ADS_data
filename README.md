@@ -80,6 +80,19 @@ plt.contourf(wind[i])
 plt.show()
   ```
   
+  Load data of a type for all hurricanes 
+  ```
+all_hurricanes = []
+for name in summary.Hurricane.unique():
+    print(name)
+    try:
+        with np.load('ADS_data/eyes/' + name + '_fg_cut.npz', allow_pickle=True) as data:
+            wind = data['arr_0'] 
+        all_hurricanes.extend(wind)
+    except:
+        print(name + ' did not work. File is probably corrupted')
+  ```
+  
  ### Some bits and bobs about how the data was calculated / possible needed improvements
  ##### Isolating the hurricane:
  The points shown are those that have a value higher than 3 times the mean of the image, those below that threshold are NaN.
