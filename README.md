@@ -13,10 +13,10 @@ Hurricanes:
 - [x] Sidr
 - [x] Rashmi
 - [x] Aila
-- [ ] Roanu
-- [ ] Viyaru
-- [ ] Mora
-- [ ] Fani
+- [x] Roanu
+- [x] Viyaru
+- [x] Mora
+- [x] Fani
 - [ ] Bulbul (corrupted)
 
 ### Data format:
