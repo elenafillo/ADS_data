@@ -23,7 +23,7 @@ import random
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 # Number of workers for dataloader
-workers = 1
+workers = 0
 
 # Batch size during training
 batch_size = 128
@@ -45,7 +45,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 1000
+num_epochs = 10
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -150,7 +150,7 @@ def run():
     data=[]
     for f in os.listdir(path):
         # print(len(data))
-        if f.endswith(".npz") and "fg_cut" in f:
+        if f.endswith(".npz") and "aila_fg_cut" in f:
             print(f)
             datapoint=np.load(path+f, allow_pickle=True)
             for x in datapoint['arr_0']:
