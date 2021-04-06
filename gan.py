@@ -140,6 +140,9 @@ class Generator(nn.Module):
         return self.main(input)
 
 def run():
+    f = open("text.txt", "a")
+    f.write("Now the file has more content!")
+    f.close()
     # Set random seed for reproducibility
     # manualSeed = 999
     manualSeed = random.randint(1, 10000) # use if you want new results
