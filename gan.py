@@ -20,10 +20,11 @@ from IPython.display import HTML
 import os, pathlib
 import random
 
+
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 # Number of workers for dataloader
-workers = 1
+workers = 0
 
 # Batch size during training
 batch_size = 128
@@ -350,4 +351,5 @@ def run():
 
 
 if __name__ == '__main__':
+    print('starting')    
     run()
