@@ -46,7 +46,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 10
+num_epochs = 1000
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -137,14 +137,13 @@ def run():
     data=[]
     for f in os.listdir(path):
         # print(len(data))
-        if f.endswith(".npz") and "aila_fg_cut" in f:
+        if f.endswith(".npz") and "fg_cut" in f:
             print(f)
             datapoint=np.load(path+f, allow_pickle=True)
             for x in datapoint['arr_0']:
                 # print(len(data))
                 # print(x.shape)
                 if x.shape == (256,256) and np.count_nonzero(~np.isnan(x)) > 3000:
-                    # print(x.shape)
                     data.append(torch.from_numpy(np.nan_to_num(x[128-32:128+32,128-32:128+32])))
     # print(len(data))
     random.shuffle(data)
@@ -154,7 +153,11 @@ def run():
     #     plt.show()
     
     data=torch.stack(data)
-
+    # print(data.max())
+    # print(data.min())
+    data=data/(data.max()/2)-1
+    # print(data.max())
+    # print(data.min())
     # transform=transforms.Compose([transforms.Resize(image_size),
     #                             transforms.CenterCrop(image_size),
     #                             transforms.ToTensor(),
@@ -222,7 +225,9 @@ def run():
     # Create batch of latent vectors that we will use to visualize
     #  the progression of the generator
     fixed_noise = torch.randn(64, nz, 1, 1, device=device)
-
+    print(fixed_noise.shape)
+    print(fixed_noise.max())
+    print(fixed_noise.min())
     # Establish convention for real and fake labels during training
     real_label = 1.
     fake_label = 0.

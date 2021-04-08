@@ -46,7 +46,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 10
+num_epochs = 1000
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -96,7 +96,7 @@ class Discriminator(nn.Module):
 
             # state size. (ndf*8) x 4 x 4
             nn.Conv2d(ndf * 32, 1, 4, 1, 0, bias=False),
-            # nn.Sigmoid()
+            nn.Sigmoid()
         )
 
     def forward(self, input):
@@ -154,7 +154,7 @@ def run():
     data=[]
     for f in os.listdir(path):
         # print(len(data))
-        if f.endswith(".npz") and "aila_fg_cut" in f:
+        if f.endswith(".npz") and "fg_cut" in f:
             print(f)
             datapoint=np.load(path+f, allow_pickle=True)
             for x in datapoint['arr_0']:
@@ -166,12 +166,12 @@ def run():
     # print(len(data))
     random.shuffle(data)
 
-    for x in data:
-        plt.imshow(x, cmap='gray', vmin=0, vmax=255)
-        plt.show()
+    # for x in data:
+    #     plt.imshow(x, cmap='gray', vmin=0, vmax=255)
+    #     plt.show()
     
     data=torch.stack(data)
-
+    data=data/(data.max()/2)-1
     # transform=transforms.Compose([transforms.Resize(image_size),
     #                             transforms.CenterCrop(image_size),
     #                             transforms.ToTensor(),
@@ -234,7 +234,7 @@ def run():
     print(netD)
 
     # Initialize BCELoss function
-    criterion = nn.BCEWithLogitsLoss()
+    criterion = nn.BCELoss()
 
     # Create batch of latent vectors that we will use to visualize
     #  the progression of the generator
