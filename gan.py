@@ -96,7 +96,7 @@ class Discriminator(nn.Module):
 
             # state size. (ndf*8) x 4 x 4
             nn.Conv2d(ndf * 32, 1, 4, 1, 0, bias=False),
-            nn.Sigmoid()
+            # nn.Sigmoid()
         )
 
     def forward(self, input):
@@ -233,7 +233,7 @@ def run():
     print(netD)
 
     # Initialize BCELoss function
-    criterion = nn.BCELoss()
+    criterion = nn.BCEWithLogitsLoss()
 
     # Create batch of latent vectors that we will use to visualize
     #  the progression of the generator
