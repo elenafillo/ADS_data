@@ -331,6 +331,7 @@ def run():
                 with torch.no_grad():
                     fake = netG(fixed_noise).detach().cpu().numpy()
                 img_list.append(fake)
+                np.save("produced.npy",img_list)
 
             iters += 1
 
@@ -343,7 +344,12 @@ def run():
     plt.legend()
     plt.savefig("loss.png")
 
-    np.save("produced.npy",img_list)
+    PATH = "netG.pt"
+    torch.save(netG, PATH)
+    
+    PATH = "netD.pt"
+    torch.save(netD, PATH)
+    
     # fig = plt.figure(figsize=(8,8))
     # plt.axis("off")
     # ims = [[plt.imshow(np.transpose(i,(1,2,0)), animated=True)] for i in img_list]
