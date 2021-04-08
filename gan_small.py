@@ -86,17 +86,9 @@ class Discriminator(nn.Module):
             nn.BatchNorm2d(ndf * 8),
             nn.LeakyReLU(0.2, inplace=True),
 
-            nn.Conv2d(ndf * 8, ndf * 16, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(ndf * 16),
-            nn.LeakyReLU(0.2, inplace=True),
-
-            nn.Conv2d(ndf * 16, ndf * 32, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(ndf * 32),
-            nn.LeakyReLU(0.2, inplace=True),
-
             # state size. (ndf*8) x 4 x 4
-            nn.Conv2d(ndf * 32, 1, 4, 1, 0, bias=False),
-            # nn.Sigmoid()
+            nn.Conv2d(ndf * 8, 1, 4, 1, 0, bias=False),
+            nn.Sigmoid()
         )
 
     def forward(self, input):
@@ -124,16 +116,7 @@ class Generator(nn.Module):
             nn.BatchNorm2d(64),
             nn.ReLU(True),
             # state size. (ngf) x 32 x 32
-            nn.ConvTranspose2d( 64,32, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(32),
-            nn.ReLU(True),
-
-            nn.ConvTranspose2d( 32,16, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(16),
-            nn.ReLU(True),
-
-            nn.ConvTranspose2d( 16,nc, 4, 2, 1, bias=False),
-
+            nn.ConvTranspose2d( 64,nc, 4, 2, 1, bias=False),
             nn.Tanh()
         )
 
@@ -162,13 +145,13 @@ def run():
                 # print(x.shape)
                 if x.shape == (256,256) and np.count_nonzero(~np.isnan(x)) > 3000:
                     # print(x.shape)
-                    data.append(torch.from_numpy(np.nan_to_num(x)))
+                    data.append(torch.from_numpy(np.nan_to_num(x[128-32:128+32,128-32:128+32])))
     # print(len(data))
     random.shuffle(data)
 
-    for x in data:
-        plt.imshow(x, cmap='gray', vmin=0, vmax=255)
-        plt.show()
+    # for x in data:
+    #     plt.imshow(x, cmap='gray', vmin=0, vmax=255)
+    #     plt.show()
     
     data=torch.stack(data)
 
@@ -234,7 +217,7 @@ def run():
     print(netD)
 
     # Initialize BCELoss function
-    criterion = nn.BCEWithLogitsLoss()
+    criterion = nn.BCELoss()
 
     # Create batch of latent vectors that we will use to visualize
     #  the progression of the generator
