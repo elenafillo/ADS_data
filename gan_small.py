@@ -320,7 +320,7 @@ def run():
                 with torch.no_grad():
                     fake = netG(fixed_noise).detach().cpu().numpy()
                 img_list.append(fake)
-                np.save("produced.npy",img_list)
+                np.save("produced_small.npy",img_list)
 
             iters += 1
 
