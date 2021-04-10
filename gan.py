@@ -111,29 +111,32 @@ class Generator(nn.Module):
             nn.ConvTranspose2d( nz, 512, 4, 1, 0, bias=False),
             nn.BatchNorm2d(512),
             nn.ReLU(True),
-            # state size. (ngf*8) x 4 x 4
+            # state size. (512) x 4 x 4
             nn.ConvTranspose2d(512, 256, 4, 2, 1, bias=False),
             nn.BatchNorm2d(256),
             nn.ReLU(True),
-            # state size. (ngf*4) x 8 x 8
+            # state size. (256) x 8 x 8
             nn.ConvTranspose2d( 256, 128, 4, 2, 1, bias=False),
             nn.BatchNorm2d(128),
             nn.ReLU(True),
-            # state size. (ngf*2) x 16 x 16
+            # state size. (128) x 16 x 16
             nn.ConvTranspose2d( 128, 64, 4, 2, 1, bias=False),
             nn.BatchNorm2d(64),
             nn.ReLU(True),
-            # state size. (ngf) x 32 x 32
+            # state size. (64) x 32 x 32
             nn.ConvTranspose2d( 64,32, 4, 2, 1, bias=False),
             nn.BatchNorm2d(32),
             nn.ReLU(True),
-
+            #32 x 64 x 64
             nn.ConvTranspose2d( 32,16, 4, 2, 1, bias=False),
             nn.BatchNorm2d(16),
             nn.ReLU(True),
-
-            nn.ConvTranspose2d( 16,nc, 4, 2, 1, bias=False),
-
+            #16 x 128 x 128
+            nn.ConvTranspose2d( 16,8, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(8),
+            nn.ReLU(True),
+            #8 x 256 x 256
+            nn.Conv2d( 8,nc, 3, 1, 1, bias=False),
             nn.Tanh()
         )
 
@@ -288,6 +291,7 @@ def run():
             noise = torch.randn(b_size, nz, 1, 1, device=device)
             # Generate fake image batch with G
             fake = netG(noise)
+            print(fake.shape)
             # print(fake.shape)
             label.fill_(fake_label)
             # Classify all fake batch with D
