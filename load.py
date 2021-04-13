@@ -1,8 +1,8 @@
 import numpy as np 
 from matplotlib import pyplot as plt
+import scipy.ndimage
 
-
-r=np.load("produced/produced_6.npy")[0]
+r=np.load("produced_new/produced_6.npy")[0]
 
 print(r.shape)
 for x in r[::-1]:
@@ -12,5 +12,6 @@ for x in r[::-1]:
     print(x.max())
     print(x.min())
     print(x)
-    plt.imshow(x.squeeze(), cmap='gray', vmin=0, vmax=255)
+    plt.imshow(scipy.ndimage.gaussian_filter(x.squeeze(),5))
+    # plt.imshow(x.squeeze())
     plt.show()
