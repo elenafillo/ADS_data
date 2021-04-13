@@ -166,7 +166,7 @@ def run():
     data=[]
     for f in os.listdir(path):
         # print(len(data))
-        if f.endswith(".npz") and "aila_fg_cut" in f:
+        if f.endswith(".npz") and "fg_cut" in f:
             print(f)
             datapoint=np.load(path+f, allow_pickle=True)
             for x in datapoint['arr_0']:
