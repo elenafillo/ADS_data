@@ -34,11 +34,13 @@ print('len:', len(cyclones))
 for c in cyclones:
     for i in range(9):
         for j in range(47):
-            if c["arr_0"][i*48+j].shape ==(256,256):
+            if c["arr_0"][i*48+j].shape == (256,256) and c["arr_0"][i*48+j+1].shape == (256,256):
                 mxs.append(np.nanmax(c["arr_0"][i*48+j]))
+                mns.append(np.nanmin(c["arr_0"][i*48+j]))
+                mxs.append(np.nanmax(c["arr_0"][i*48+j+1]))
                 mns.append(np.nanmin(c["arr_0"][i*48+j+1]))
-            t1.append(c["arr_0"][i*48+j])
-            t2.append(c["arr_0"][i*48+j+1])
+                t1.append(c["arr_0"][i*48+j])
+                t2.append(c["arr_0"][i*48+j+1])
 
 f = open("data_progress.txt", "a")
 f.write("Got all  image pairs, " + str(len(t1)) +  "\n Normalising the data \n")
