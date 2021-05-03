@@ -9,23 +9,28 @@ import random
 cyclones=[]
 for f in os.listdir( str(pathlib.Path(__file__).parent)+"/eyes"):
     # print(f)
-    if f.endswith("full.npz"):
+    if f.endswith("fg_full.npz"):
         cyclones.append(np.load(str(pathlib.Path(__file__).parent)+"/eyes/"+f,allow_pickle=True))
 
 #get image pairs
 t1=[]
 t2=[]
-for c in [cyclones[0]]:
-    print(c["arr_0"].shape)
+mxs=[]
+mns=[]
+
+print(len(cyclones))
+for c in cyclones:
     for i in range(9):
         for j in range(47):
-            print(j)
-            t1.append(c["arr_0"][i*48+j])
-            t2.append(c["arr_0"][i*48+j+1])
+            if c["arr_0"][i*48+j].shape ==(256,256):
+                mxs.append(np.nanmax(c["arr_0"][i*48+j]))
+                mns.append(np.nanmin(c["arr_0"][i*48+j+1]))
+                t1.append(c["arr_0"][i*48+j])
+                t2.append(c["arr_0"][i*48+j+1])
 
 #normalise the data to the 0-255 range
-mn=min(np.nanmin(t1),np.nanmin(t2))
-mx=min(np.nanmax(t1),np.nanmax(t2))
+mn=min(mns)
+mx=min(mxs)
 t1=(t1-mn)/(mx-mn)*255
 t2=(t2-mn)/(mx-mn)*255
 t1int=np.array(t1).astype(np.uint8)
