@@ -16,6 +16,8 @@ f.write("Starting to generate data \n")
 f.close()
 
 rgb=True
+t=3
+
 #load cyclones
 cyclones=[]
 for f in os.listdir( str(pathlib.Path(__file__).parent)+"/eyes"):
@@ -40,14 +42,14 @@ for c in range(len(cyclones)):
     dataindex[c]={}
     for i in range(9):
         dataindex[c][i]=[]
-        for j in range(47):
+        for j in range(48-t):
             temp=cyclones[c]
-            if temp[i*48+j].shape == (256,256) and temp[i*48+j+1].shape == (256,256):
+            if temp[i*48+j].shape == (256,256) and temp[i*48+j+t].shape == (256,256):
                 mx=max(mx,np.nanmax(temp[i*48+j]))
                 mn=min(mn,np.nanmin(temp[i*48+j]))
-                if j==46:
-                    mx=max(mx,np.nanmax(temp[i*48+j+1]))
-                    mn=min(mn,np.nanmin(temp[i*48+j+1]))
+                if j>=48-t:
+                    mx=max(mx,np.nanmax(temp[i*48+j+t]))
+                    mn=min(mn,np.nanmin(temp[i*48+j+t]))
                 dataindex[c][i].append(j)
                 l+=1
 
@@ -75,7 +77,7 @@ for s in list(split.keys()):
         timepoint=random.choice(dataindex[cyclone][ensemble])
         #normalise
         t1=(cyclones[cyclone][ensemble*48+timepoint]-mn)/(mx-mn)*255
-        t2=(cyclones[cyclone][ensemble*48+timepoint+1]-mn)/(mx-mn)*255
+        t2=(cyclones[cyclone][ensemble*48+timepoint+t]-mn)/(mx-mn)*255
         t1int=np.array(t1).astype(np.uint8)
         t2int=np.array(t2).astype(np.uint8)
         #save images
