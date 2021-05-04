@@ -5,6 +5,10 @@ import pathlib
 from PIL import Image
 import random
 
+def remove_empty_keys(d):
+    for k in d.keys():
+        if not d[k]:
+            del d[k]
 
 f = open("data_progress.txt", "a")
 f.write("Starting to generate data \n")
@@ -28,45 +32,32 @@ f.close()
 t1=[]
 t2=[]
 
-mxs = []
-mns = []
-print('len:', len(cyclones))
-for c in cyclones:
+mx = 0
+mn = 10000
+print('number of cyclones:', len(cyclones))
+
+dataindex={}
+
+for c in range(len(cyclones)):
+    print(c)
+    dataindex[c]={}
     for i in range(9):
+        print(i)
+        dataindex[c][i]=[]
         for j in range(47):
-            if c["arr_0"][i*48+j].shape == (256,256) and c["arr_0"][i*48+j+1].shape == (256,256):
-                mxs.append(np.nanmax(c["arr_0"][i*48+j]))
-                mns.append(np.nanmin(c["arr_0"][i*48+j]))
-                mxs.append(np.nanmax(c["arr_0"][i*48+j+1]))
-                mns.append(np.nanmin(c["arr_0"][i*48+j+1]))
-                t1.append(c["arr_0"][i*48+j])
-                t2.append(c["arr_0"][i*48+j+1])
+            if cyclones[c]["arr_0"][i*48+j].shape == (256,256) and cyclones[c]["arr_0"][i*48+j+1].shape == (256,256):
+                mx=max(mx,np.nanmax(cyclones[c]["arr_0"][i*48+j]))
+                mn=min(mn,np.nanmin(cyclones[c]["arr_0"][i*48+j]))
+                if j==46:
+                    mx=max(mx,np.nanmax(cyclones[c]["arr_0"][i*48+j+1]))
+                    mn=min(mn,np.nanmin(cyclones[c]["arr_0"][i*48+j+1]))
+                dataindex[c][i].append(j)
 
 f = open("data_progress.txt", "a")
 f.write("Got all  image pairs, " + str(len(t1)) +  "\n Normalising the data \n")
 f.close()
 
-
-#normalise the data to the 0-255 range
-mn=min(mns)
-mx=min(mxs)
-t1=(t1-mn)/(mx-mn)*255
-t2=(t2-mn)/(mx-mn)*255
-t1int=np.array(t1).astype(np.uint8)
-t2int=np.array(t2).astype(np.uint8)
-
 #create relevant directories
-#if not os.path.exists(str(pathlib.Path(__file__).parent)+"/path"):
-#    os.mkdir(str(pathlib.Path(__file__).parent)+"/path")
-#if not os.path.exists(str(pathlib.Path(__file__).parent)+"/path/to"):
-#    os.mkdir(str(pathlib.Path(__file__).parent)+"/path/to")
-#if not os.path.exists(str(pathlib.Path(__file__).parent)+"/path/to/data"):
-#    os.mkdir(str(pathlib.Path(__file__).parent)+"/path/to/data")
-#if not os.path.exists(str(pathlib.Path(__file__).parent)+"/path/to/data/A"):
-#    os.mkdir(str(pathlib.Path(__file__).parent)+"/path/to/data/A")
-#if not os.path.exists(str(pathlib.Path(__file__).parent)+"/path/to/data/B"):
-#    os.mkdir(str(pathlib.Path(__file__).parent)+"/path/to/data/B")
-
 
 path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/ADS_data'
 
@@ -87,18 +78,29 @@ for s in list(split.keys()):
     f = open("data_progress.txt", "a")
     f.write("Saving data in mode " + s)
     f.close()
-
-#    if not os.path.exists(str(pathlib.Path(__file__).parent)+"/path/to/data/A/"+s):
-#        os.mkdir(str(pathlib.Path(__file__).parent)+"/path/to/data/A/"+s)
-#    if not os.path.exists(str(pathlib.Path(__file__).parent)+"/path/to/data/B/"+s):
-#        os.mkdir(str(pathlib.Path(__file__).parent)+"/path/to/data/B/"+s)
     for i in range(int(l*split[s])):
+        #randomly select a datapoint
+        cyclone=random.choice(list(dataindex.keys()))
+        ensemble=random.choice(list(dataindex[cyclone].keys()))
+        timepoint=random.choice(dataindex[cyclone][ensemble])
+        #normalise
+        t1=(cyclones[cyclone][ensemble][timepoint]-mn)/(mx-mn)*255
+        t2=(cyclones[cyclone][ensemble][timepoint+1]-mn)/(mx-mn)*255
+        t1int=np.array(t1).astype(np.uint8)
+        t2int=np.array(t2).astype(np.uint8)
+        #save images
         im = Image.fromarray(t1int[0])
         im.save(path_to_data + "/A/"+s+"/"+str(i)+".jpg")
         im = Image.fromarray(t2int[0])
         im.save(path_to_data + "/B/"+s+"/"+str(i)+".jpg")
+        #delete datapoint so it isn't duplicated
         t1int=np.delete(t1int,0,0)
         t2int=np.delete(t2int,0,0)
+        #remove any empty subdictionaries
+        for c in list(dataindex.keys()):
+            remove_empty_keys(dataindex[c])
+            if dataindex[c]=={}:
+                del dataindex[c]
 
 #plots data pairs
 # rows=1
