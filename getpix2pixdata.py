@@ -17,6 +17,7 @@ f.close()
 
 rgb=True
 t=3
+cut_to_centre = True
 
 #load cyclones
 cyclones=[]
@@ -78,6 +79,9 @@ for s in list(split.keys()):
         #normalise
         t1=(cyclones[cyclone][ensemble*48+timepoint]-mn)/(mx-mn)*255
         t2=(cyclones[cyclone][ensemble*48+timepoint+t]-mn)/(mx-mn)*255
+        if cut_to_centre:
+            t1 = t1[128-32:128+32,128-32:128+32]
+            t2 = t2[128-32:128+32,128-32:128+32]
         t1int=np.array(t1).astype(np.uint8)
         t2int=np.array(t2).astype(np.uint8)
         #save images
