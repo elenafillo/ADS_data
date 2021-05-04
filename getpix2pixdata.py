@@ -15,6 +15,7 @@ f = open("data_progress.txt", "a")
 f.write("Starting to generate data \n")
 f.close()
 
+rgb=True
 #load cyclones
 cyclones=[]
 for f in os.listdir( str(pathlib.Path(__file__).parent)+"/eyes"):
@@ -56,9 +57,9 @@ f.close()
 
 #create relevant directories
 
-path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/ADS_data'
+# path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/ADS_data'
 
-# path_to_data=str(pathlib.Path(__file__).parent)+"/path/to/data/"
+path_to_data=str(pathlib.Path(__file__).parent)+"/path/to/data/"
 
 split={"train":0.8,"test":0.1,"val":0.1}
 
@@ -78,10 +79,24 @@ for s in list(split.keys()):
         t1int=np.array(t1).astype(np.uint8)
         t2int=np.array(t2).astype(np.uint8)
         #save images
-        im = Image.fromarray(t1int)
-        im.save(path_to_data + "/A/"+s+"/"+str(i)+".jpg")
-        im = Image.fromarray(t2int)
-        im.save(path_to_data + "/B/"+s+"/"+str(i)+".jpg")
+        im1 = Image.fromarray(t1int)
+        im2 = Image.fromarray(t2int)
+        if not rgb:
+            im1.save(path_to_data + "/A/"+s+"/"+str(i)+".jpg")
+            im2.save(path_to_data + "/B/"+s+"/"+str(i)+".jpg")
+        else:
+            fig, ax = plt.subplots()
+            ax.contourf(im1,levels=51)
+            ax.set_position([0, 0, 1, 1])
+            plt.axis('off')
+            plt.savefig(path_to_data + "/A/"+s+"/"+str(i)+".jpg")
+            plt.close()
+            fig, ax = plt.subplots()
+            ax.contourf(im2,levels=51)
+            ax.set_position([0, 0, 1, 1])
+            plt.axis('off')
+            plt.savefig(path_to_data + "/B/"+s+"/"+str(i)+".jpg")
+            plt.close()
         #delete datapoint so it isn't duplicated
         dataindex[cyclone][ensemble].remove(timepoint)
         #remove any empty subdictionaries
