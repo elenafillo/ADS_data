@@ -87,6 +87,9 @@ for s in list(split.keys()):
         #save images
         im1 = Image.fromarray(t1int)
         im2 = Image.fromarray(t2int)
+        if cut_to_centre:
+            im1 = im1.resize((256,256))
+            im2 = im2.resize((256, 256))
         if not rgb:
             im1.save(path_to_data + "/A/"+s+"/"+str(i)+".jpg")
             im2.save(path_to_data + "/B/"+s+"/"+str(i)+".jpg")
