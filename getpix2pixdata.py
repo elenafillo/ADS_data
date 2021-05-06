@@ -15,6 +15,7 @@ f = open("data_progress.txt", "a")
 f.write("Starting to generate data \n")
 f.close()
 
+contour=True
 rgb=True
 t=3
 
@@ -59,9 +60,9 @@ f.close()
 
 #create relevant directories
 
-# path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/ADS_data'
+path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/ADS_data'
 
-path_to_data=str(pathlib.Path(__file__).parent)+"/path/to/data/"
+# path_to_data=str(pathlib.Path(__file__).parent)+"/path/to/data/"
 
 split={"train":0.8,"test":0.1,"val":0.1}
 
@@ -83,18 +84,31 @@ for s in list(split.keys()):
         #save images
         im1 = Image.fromarray(t1int)
         im2 = Image.fromarray(t2int)
-        if not rgb:
+        if not rgb and not contour:
             im1.save(path_to_data + "/A/"+s+"/"+str(i)+".jpg")
             im2.save(path_to_data + "/B/"+s+"/"+str(i)+".jpg")
-        else:
+        elif contour:
             fig, ax = plt.subplots()
-            ax.contourf(im1,levels=51)
+            ax.contourf(im1,levels=6, cmap="Greys")
             ax.set_position([0, 0, 1, 1])
             plt.axis('off')
             plt.savefig(path_to_data + "/A/"+s+"/"+str(i)+".jpg")
             plt.close()
             fig, ax = plt.subplots()
-            ax.contourf(im2,levels=51)
+            ax.contourf(im2,levels=6, cmap="Greys")
+            ax.set_position([0, 0, 1, 1])
+            plt.axis('off')
+            plt.savefig(path_to_data + "/B/"+s+"/"+str(i)+".jpg")
+            plt.close()
+        else:
+            fig, ax = plt.subplots()
+            ax.contourf(im1,levels=6)
+            ax.set_position([0, 0, 1, 1])
+            plt.axis('off')
+            plt.savefig(path_to_data + "/A/"+s+"/"+str(i)+".jpg")
+            plt.close()
+            fig, ax = plt.subplots()
+            ax.contourf(im2,levels=6)
             ax.set_position([0, 0, 1, 1])
             plt.axis('off')
             plt.savefig(path_to_data + "/B/"+s+"/"+str(i)+".jpg")
