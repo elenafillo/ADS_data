@@ -1,0 +1,107 @@
+Starting to generate data 
+Loaded all cyclones 
+Starting to generate data 
+Loaded all cyclones 
+Starting to generate data 
+Loaded all cyclones 
+Starting to generate data 
+Loaded all cyclones 
+Starting to generate data 
+Loaded all cyclones 
+Starting to generate data 
+Loaded all cyclones 
+Starting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Starting to generate data 
+Loaded all cyclones 
+Starting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Starting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainSaving data in mode testSaving data in mode valStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainSaving data in mode testSaving data in mode valStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainSaving data in mode testSaving data in mode valStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainSaving data in mode testSaving data in mode valStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainSaving data in mode testSaving data in mode valStarting to generate data 
+Starting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pair
+ Normalising the data 
+Saving data in mode train
