@@ -16,7 +16,7 @@ f.write("Starting to generate data \n")
 f.close()
 
 contour=True
-rgb=True
+rgb= True
 t=3
 cut_to_centre = True
 
@@ -61,7 +61,7 @@ f.close()
 
 #create relevant directories
 
-path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/ADS_data'
+path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/all_data/contours_3_col'
 
 # path_to_data=str(pathlib.Path(__file__).parent)+"/path/to/data/"
 
@@ -97,7 +97,10 @@ for s in list(split.keys()):
             im2.save(path_to_data + "/B/"+s+"/"+str(i)+".jpg")
         elif contour:
             fig, ax = plt.subplots()
-            ax.contourf(im1,levels=6, cmap="Greys")
+            if rgb:
+                ax.contourf(im1, levels = 6)
+            if not rgb:
+                ax.contourf(im1,levels=6, cmap="Greys")
             ax.set_position([0, 0, 1, 1])
             plt.axis('off')
             plt.savefig(path_to_data + "/A/"+s+"/"+str(i)+".jpg")
