@@ -106,7 +106,10 @@ for s in list(split.keys()):
             plt.savefig(path_to_data + "/A/"+s+"/"+str(i)+".jpg")
             plt.close()
             fig, ax = plt.subplots()
-            ax.contourf(im2,levels=6, cmap="Greys")
+            if not rgb:
+                ax.contourf(im2,levels=6, cmap="Greys")
+            if rgb:
+                ax.contourf(im2, levels = 6)
             ax.set_position([0, 0, 1, 1])
             plt.axis('off')
             plt.savefig(path_to_data + "/B/"+s+"/"+str(i)+".jpg")
