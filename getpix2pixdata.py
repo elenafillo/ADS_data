@@ -19,6 +19,7 @@ contour=True
 rgb= True
 t=3
 cut_to_centre = True
+only_eyes = True
 
 #load cyclones
 cyclones=[]
@@ -46,17 +47,24 @@ for c in range(len(cyclones)):
         dataindex[c][i]=[]
         for j in range(48-t):
             temp=cyclones[c]
-            if temp[i*48+j].shape == (256,256) and temp[i*48+j+t].shape == (256,256):
-                mx=max(mx,np.nanmax(temp[i*48+j]))
-                mn=min(mn,np.nanmin(temp[i*48+j]))
-                if j>=48-t:
-                    mx=max(mx,np.nanmax(temp[i*48+j+t]))
-                    mn=min(mn,np.nanmin(temp[i*48+j+t]))
-                dataindex[c][i].append(j)
-                l+=1
+            try:
+                local_max = np.max(temp[i*48+j])
+                local_min = np.min(temp[i*48+j])
+            except ValueError:  #raised if array is empty.
+                local_max = 0
+                local_min = 0
+                pass
+            if temp[i*48+j].shape == (256,256) and temp[i*48+j+t].shape == (256,256) and (not only_eyes or (local_max > 68 and local_min < 34)):
+            mx=max(mx,local_max)
+            mn=min(mn,local_min)
+            if j>=48-t:
+                mx=max(mx,np.nanmax(temp[i*48+j+t]))
+                mn=min(mn,np.nanmin(temp[i*48+j+t]))
+            dataindex[c][i].append(j)
+            l+=1
 
 f = open("data_progress.txt", "a")
-f.write("Got all  image pair\n Normalising the data \n")
+f.write("Got all  image pairs, length " + str(l) + "\n Normalising the data \n")
 f.close()
 
 #create relevant directories
@@ -65,7 +73,7 @@ path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/all_data/contours
 
 # path_to_data=str(pathlib.Path(__file__).parent)+"/path/to/data/"
 
-split={"train":0.8,"test":0.1,"val":0.1}
+split={"train":0.8,"test":0.1,"val":0}
 
 #save the data
 for s in list(split.keys()):
