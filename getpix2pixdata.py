@@ -55,17 +55,26 @@ for c in range(len(cyclones)):
                 local_min = 0
                 pass
             if temp[i*48+j].shape == (256,256) and temp[i*48+j+t].shape == (256,256) and (not only_eyes or (local_max > 68 and local_min < 34)):
-            mx=max(mx,local_max)
-            mn=min(mn,local_min)
-            if j>=48-t:
-                mx=max(mx,np.nanmax(temp[i*48+j+t]))
-                mn=min(mn,np.nanmin(temp[i*48+j+t]))
-            dataindex[c][i].append(j)
-            l+=1
+                mx=max(mx,local_max)
+                mn=min(mn,local_min)
+                if j>=48-t:
+                    mx=max(mx,np.nanmax(temp[i*48+j+t]))
+                    mn=min(mn,np.nanmin(temp[i*48+j+t]))
+                dataindex[c][i].append(j)
+                l+=1
 
 f = open("data_progress.txt", "a")
 f.write("Got all  image pairs, length " + str(l) + "\n Normalising the data \n")
 f.close()
+
+# remove items that are empty
+for c in list(dataindex.keys()):
+    remove_empty_keys(dataindex[c])
+    if dataindex[c]=={}:
+        del dataindex[c]
+
+
+
 
 #create relevant directories
 
@@ -142,3 +151,4 @@ for s in list(split.keys()):
             remove_empty_keys(dataindex[c])
             if dataindex[c]=={}:
                 del dataindex[c]
+            
