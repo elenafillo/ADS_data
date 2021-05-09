@@ -78,7 +78,7 @@ for c in list(dataindex.keys()):
 
 #create relevant directories
 
-path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/all_data/contours_3_col'
+path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/all_data/eyes_contours_3_col'
 
 # path_to_data=str(pathlib.Path(__file__).parent)+"/path/to/data/"
 
