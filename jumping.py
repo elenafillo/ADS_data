@@ -66,6 +66,21 @@ for c in range(len(cyclones)):
                 dataindex[c][i].append(j)
                 l+=1
 
+
+for c in list(dataindex.keys()):
+    remove_empty_keys(dataindex[c])
+    if dataindex[c] == {}:
+        del dataindex[c]
+
+print(dataindex)
+exit()
+#for c in list(dataindex.keys()):
+#    for e in list(c.keys()):
+	
+
+
+
+
 f = open("data_progress.txt", "a")
 f.write("Got all  image pairs, length " + str(l) + "\n Normalising the data \n")
 f.close()
