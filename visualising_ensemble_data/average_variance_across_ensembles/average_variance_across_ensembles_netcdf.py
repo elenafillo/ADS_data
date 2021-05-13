@@ -27,7 +27,7 @@ def plot_stdev_and_max(firstMember, lower_lat, upper_lat, lower_lon, upper_lon, 
     #Plot 9 ensemble members at same time stamp
     plt.figure(figsize=(12,12))
     for index, ensemble_member in enumerate(ensemble_members):
-        print(index, ensemble_member)
+        # print(index, ensemble_member)
         ax = plt.subplot(3,3,index+1, projection=ccrs.PlateCarree((lower_lon+upper_lon)/2)) #+1 because subplot counts from 1
         ax.coastlines()
         ax.add_feature(cfeature.BORDERS)
@@ -38,9 +38,10 @@ def plot_stdev_and_max(firstMember, lower_lat, upper_lat, lower_lon, upper_lon, 
         plt.title('')
 
     # plt.suptitle('9 ensemble members of the same time stamp')
-    plt.savefig(f'{folder_name}/9ensemble_members_of_same_time_stamp_{firstMember}.png',bbox_inches='tight', transparent=True)
-    plt.show()
+    plt.savefig(f'{folder_name}/images/{folder_name}_9ensemble_members_of_same_time_stamp_{firstMember}.png',bbox_inches='tight', transparent=False)
+    plt.close()
     plt.figure(figsize=(6.4,4.8))
+    
 
 
     # #initialise stdev and max holders (xarray.plot way)
@@ -65,7 +66,7 @@ def plot_stdev_and_max(firstMember, lower_lat, upper_lat, lower_lon, upper_lon, 
 
     #calculate standard deviation and max for each cell. Looking at all 9 ensemble members for each cell
     for ii in range(np.size(cut_to_size[0].values[:][0])):
-        print(f'{ii+1}/{np.size(cut_to_size[0].values[0][:])}')
+        # print(f'{ii+1}/{np.size(cut_to_size[0].values[0][:])}') #print progress
         for jj in range(np.size(cut_to_size[0].values[0][:])):
             # stddev_holder.values[ii][jj] = np.std([cut_to_size[0].values[ii][jj], cut_to_size[1].values[ii][jj], cut_to_size[2].values[ii][jj], cut_to_size[3].values[ii][jj], cut_to_size[4].values[ii][jj], cut_to_size[5].values[ii][jj], cut_to_size[6].values[ii][jj], cut_to_size[7].values[ii][jj], cut_to_size[8].values[ii][jj]])
             stdev_values[ii][jj] = np.std([cut_to_size[0].values[ii][jj], cut_to_size[1].values[ii][jj], cut_to_size[2].values[ii][jj], cut_to_size[3].values[ii][jj], cut_to_size[4].values[ii][jj], cut_to_size[5].values[ii][jj], cut_to_size[6].values[ii][jj], cut_to_size[7].values[ii][jj], cut_to_size[8].values[ii][jj]])
@@ -81,8 +82,8 @@ def plot_stdev_and_max(firstMember, lower_lat, upper_lat, lower_lon, upper_lon, 
     # cut_to_size[0].plot.contourf(ax=ax, transform=ccrs.PlateCarree())
     plt.contourf(lons,lats, max_values, transform=ccrs.PlateCarree(),levels=np.linspace(0,100,11))
     plt.colorbar(label='max wind speed of gust [ms-1]')
-    plt.savefig(f'{folder_name}/max_{firstMember}.png', transparent=True)
-
+    plt.savefig(f'{folder_name}/images/{folder_name}_max_{firstMember}.png', transparent=False)
+    plt.close()
 
     #plot stdev
     ax = plt.subplot(1,1,1, projection=ccrs.PlateCarree((lower_lon+upper_lon)/2))
@@ -91,8 +92,9 @@ def plot_stdev_and_max(firstMember, lower_lat, upper_lat, lower_lon, upper_lon, 
     # cut_to_size[0].plot.contourf(ax=ax, transform=ccrs.PlateCarree())
     plt.contourf(lons,lats, stdev_values, transform=ccrs.PlateCarree(), levels=np.linspace(0,40,11))
     plt.colorbar(label='standard deviation [ms-1]')
-    plt.savefig(f'{folder_name}/stdev_{firstMember}.png', transparent=True)
-
+    plt.savefig(f'{folder_name}/images/{folder_name}_stdev_{firstMember}.png', transparent=False)
+    plt.close()
+    return np.sum(stdev_values), np.max(max_values)
 
 if __name__ == "__main__":
     hurricane = 'bob01'
@@ -100,8 +102,13 @@ if __name__ == "__main__":
 
 ######## 
 # Setup 
-    data = xr.open_dataset("../../../../MetOfficeData/tsens.bob01/fg.T1Hmax.UMRA2T.19910428_19910501.BOB01.4p4km.nc")
-    folder_name = 'bob01' #existing folder
+    data = xr.open_dataset("../../../../MetOfficeData/tsens.viyaru/fg.T1Hmax.UMRA2T.20130514_20130517.VIYARU.4p4km.nc")
+    # data = xr.open_dataset("../../../../MetOfficeData/tsens.sidr/fg.T1Hmax.UMRA2T.20071114_20071117.SIDR.4p4km.nc")
+    # data = xr.open_dataset("../../../../MetOfficeData/tsens.bob07/fg.T1Hmax.UMRA2T.19951123_19951126.BOB07.4p4km.nc")
+    # data = xr.open_dataset("../../../../MetOfficeData/tsens.aila/fg.T1Hmax.UMRA2T.20090523_20090526.AILA.4p4km.nc")
+    # data = xr.open_dataset("../../../../MetOfficeData/tsens.bob01/fg.T1Hmax.UMRA2T.19910428_19910501.BOB01.4p4km.nc")
+    
+    folder_name = 'viyaru' #existing folder
 
     lower_lat = 16
     upper_lat = 28
@@ -112,13 +119,39 @@ if __name__ == "__main__":
     framerate = '8'
 ########
     
+    #create arrays storing summaries across time steps
+    stdev_sums = np.zeros(47-23) #24 different overlapping time stamps
+    max_of_max = np.zeros(47-23)
+
+
     #create plots
-    for firstMember in range(24,48):
+    for firstMember in range(24,48): #24,48
+        print(f'{firstMember-23}/{47-23}') #print progress
         assert firstMember >= 24 and firstMember <= 47, f'firstMember ({firstMember}) not in overlapping range (24 - 47)'
-        plot_stdev_and_max(firstMember,lower_lat,upper_lat,lower_lon,upper_lon, folder_name)
+        stdev_sums[firstMember-24], max_of_max[firstMember-24] = plot_stdev_and_max(firstMember,lower_lat,upper_lat,lower_lon,upper_lon, folder_name)
+
+
+    #bob01 results, for summary plot debugging
+    # stdev_sums = np.asarray([250997.02755856, 248445.24493813, 244770.20295459, 236962.1751681, 232843.81837617, 232504.11321471, 231861.14322055, 233850.62530518, 234368.02816844, 236545.08405288, 239030.19263342, 248104.40526206, 258067.28699425, 261589.23248871, 264272.19049302, 268147.57452989, 267760.7240743,  268217.04532954, 266472.33655153, 271153.88635387, 278981.93849636, 287776.05520988, 297568.78350887, 301100.61776089])
+    # max_of_max = np.asarray([93,    92.75,  91.5,   91,    91.25,  91.75,  92.5,   93.125, 94.5, 95.875, 98.125, 96.875, 98.5, 99.375, 97.25, 98.375, 93.5, 94.5, 93.125, 94.125, 94, 90.875, 89.125, 83.875])
+
+    #plot summaries across time stamps
+    normalized_stdev_sums = [x/np.max(stdev_sums) for x in stdev_sums]
+    plt.bar(np.linspace(24,47, 47-23), normalized_stdev_sums)
+    plt.xlabel('time steps')
+    plt.ylabel('Normalized total standard deviation between ensemble members')
+    plt.savefig(f'{folder_name}/results/{folder_name}_stdev_sums.png')
+    plt.close()
+
+    plt.bar(np.linspace(24,47, 47-23), max_of_max)
+    plt.xlabel('time steps')
+    plt.ylabel('maximum gust speed from any ensemble member')
+    plt.savefig(f'{folder_name}/results/{folder_name}_max_of_max.png')
+    plt.close()
 
 
     #make videos using ffmpeg
-    subprocess.call(['sh', './shellscript.sh', framerate, f'{folder_name}/max_%02d.png',  f'{folder_name}_max.mkv'])
-    subprocess.call(['sh', './shellscript.sh', framerate, f'{folder_name}/stdev_%02d.png', f'{folder_name}_stdev.mkv'])
+    subprocess.call(['sh', './shellscript.sh', framerate, f'{folder_name}/images/{folder_name}_max_%02d.png',  f'{folder_name}/results/{folder_name}_max.mp4'])
+    subprocess.call(['sh', './shellscript.sh', framerate, f'{folder_name}/images/{folder_name}_stdev_%02d.png', f'{folder_name}/results/{folder_name}_stdev.mp4'])
+    subprocess.call(['sh', './shellscript.sh', framerate, f'{folder_name}/images/{folder_name}_9ensemble_members_of_same_time_stamp_%02d.png', f'{folder_name}/results/{folder_name}_9members.mp4'])
     
