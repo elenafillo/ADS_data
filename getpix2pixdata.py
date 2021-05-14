@@ -59,7 +59,8 @@ for c in range(len(cyclones)):
                 local_max = 0
                 local_min = 0
                 pass
-            if temp[i*48+j].shape == (256,256) and temp[i*48+j+t].shape == (256,256) and (not only_eyes or (local_max > 68 and local_min < 34)) and (not before_landfall or j < 35 - 3*i):
+            if temp[i*48+j].shape == (256,256) and temp[i*48+j+t].shape == (256,256) and (not only_eyes or (local_max > 68 and local_min < 34)) and (not before_landfall or j == 35 - 3*i - 6):
+                #(not before_landfall or j < 35 - 3*i):
                 mx=max(mx,local_max)
                 mn=min(mn,local_min)
                 if j>=48-t:
@@ -96,6 +97,7 @@ for s in list(split.keys()):
     f = open("data_progress.txt", "a")
     f.write("Saving data in mode " + s)
     f.close()
+    print('saving data', s)
     for i in range(int(l*split[s])):
         #randomly select a datapoint
         cyclone=random.choice(list(dataindex.keys()))
