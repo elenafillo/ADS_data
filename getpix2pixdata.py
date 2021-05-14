@@ -19,7 +19,7 @@ contour=True
 rgb= True
 t=6
 cut_to_centre = False
-only_eyes = True
+only_eyes = False
 before_landfall = True
 
 #load cyclones
@@ -27,7 +27,8 @@ cyclones=[]
 for f in os.listdir( str(pathlib.Path(__file__).parent)+"/eyes"):
     # print(f)
     if f.endswith("fg_full.npz"):
-        cyclones.append(np.load(str(pathlib.Path(__file__).parent)+"/eyes/"+f,allow_pickle=True)["arr_0"])
+            if any(hurr in f for hurr in ['bob07', 'fani', 'rashmi', 'tc01b']):
+                cyclones.append(np.load(str(pathlib.Path(__file__).parent)+"/eyes/"+f,allow_pickle=True)["arr_0"])
 
 
 f = open("data_progress.txt", "a")
@@ -71,6 +72,8 @@ f = open("data_progress.txt", "a")
 f.write("Got all  image pairs, length " + str(l) + "\n Normalising the data \n")
 f.close()
 
+print(mx, mn)
+
 # remove items that are empty
 for c in list(dataindex.keys()):
     remove_empty_keys(dataindex[c])
@@ -83,7 +86,7 @@ print("it worked")
 #create relevant directories
 
 #path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/all_data/eyes_contours_3_col'
-path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/all_data/new_contours_6_col/'
+path_to_data = '/work/ef17148/ADS/pytorch-CycleGAN-and-pix2pix/all_data/testing_before_landfall/'
 # path_to_data=str(pathlib.Path(__file__).parent)+"/path/to/data/"
 
 split={"train":0.8,"test":0.1,"val":0}
