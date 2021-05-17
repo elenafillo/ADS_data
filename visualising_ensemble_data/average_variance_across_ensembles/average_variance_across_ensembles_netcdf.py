@@ -142,20 +142,20 @@ if __name__ == "__main__":
 
 
     #create plots
-    for firstMember in range(24,48): #24,48
-        print(f'{firstMember-23}/{47-23}') #print progress
-        assert firstMember >= 24 and firstMember <= 47, f'firstMember ({firstMember}) not in overlapping range (24 - 47)'
-        stdev_values, max_values = plot_stdev_and_max(firstMember,lower_lat,upper_lat,lower_lon,upper_lon, folder_name)
+    # for firstMember in range(24,48): #24,48
+    #     print(f'{firstMember-23}/{47-23}') #print progress
+    #     assert firstMember >= 24 and firstMember <= 47, f'firstMember ({firstMember}) not in overlapping range (24 - 47)'
+    #     stdev_values, max_values = plot_stdev_and_max(firstMember,lower_lat,upper_lat,lower_lon,upper_lon, folder_name)
 
-        stdev_sums[firstMember-24]   = np.sum(stdev_values)
-        stdev_max[firstMember-24]    = np.max(stdev_values)
-        stdev_avg[firstMember-24]    = np.average(stdev_values)
-        stdev_median[firstMember-24] = np.median(stdev_values)
+    #     stdev_sums[firstMember-24]   = np.sum(stdev_values)
+    #     stdev_max[firstMember-24]    = np.max(stdev_values)
+    #     stdev_avg[firstMember-24]    = np.average(stdev_values)
+    #     stdev_median[firstMember-24] = np.median(stdev_values)
 
-        max_max[firstMember-24]    = np.max(max_values)
-        max_sum[firstMember-24]    = np.sum(max_values)
-        max_avg[firstMember-24]    = np.average(max_values)
-        max_median[firstMember-24] = np.median(max_values)
+    #     max_max[firstMember-24]    = np.max(max_values)
+    #     max_sum[firstMember-24]    = np.sum(max_values)
+    #     max_avg[firstMember-24]    = np.average(max_values)
+    #     max_median[firstMember-24] = np.median(max_values)
 
 # return np.sum(stdev_values), np.max(max_values), np.avg(max_values), np.mode(max_values)
 
@@ -178,88 +178,87 @@ if __name__ == "__main__":
 
 
 
-    #plot summaries across time stamps
-    normalized_stdev_sums = [x/np.max(stdev_sums) for x in stdev_sums]
-    # plt.bar(np.linspace(24,47, 47-23), normalized_stdev_sums)
-    plt.bar(np.linspace(-11,12, 47-23), normalized_stdev_sums)
-    # plt.xlabel('time steps')
-    plt.xlabel('time relative to landfall [hours]')
-    plt.title('Normalised total standard deviation between ensemble members')
-    plt.ylabel('standard deviation')
-    plt.savefig(f'{folder_name}/results/{folder_name}_stdev_sums.png')
-    plt.close()
+    # #plot summaries across time stamps
+    # normalized_stdev_sums = [x/np.max(stdev_sums) for x in stdev_sums]
+    # # plt.bar(np.linspace(24,47, 47-23), normalized_stdev_sums)
+    # plt.bar(np.linspace(-11,12, 47-23), normalized_stdev_sums)
+    # # plt.xlabel('time steps')
+    # plt.xlabel('time relative to landfall [hours]')
+    # plt.title('Normalised total standard deviation between ensemble members')
+    # plt.ylabel('standard deviation')
+    # plt.savefig(f'{folder_name}/results/{folder_name}_stdev_sums.png')
+    # plt.close()
 
 
-    plt.bar(np.linspace(-11,12, 47-23), stdev_max)
-    # plt.xlabel('time steps')
-    plt.xlabel('time relative to landfall [hours]')
-    plt.title('maximum standard deviation across image')
-    plt.ylabel('standard deviation [ms-1]')
-    plt.savefig(f'{folder_name}/results/{folder_name}_stdev_max.png')
-    plt.close()
+    # plt.bar(np.linspace(-11,12, 47-23), stdev_max)
+    # # plt.xlabel('time steps')
+    # plt.xlabel('time relative to landfall [hours]')
+    # plt.title('maximum standard deviation across image')
+    # plt.ylabel('standard deviation [ms-1]')
+    # plt.savefig(f'{folder_name}/results/{folder_name}_stdev_max.png')
+    # plt.close()
 
 
-    plt.bar(np.linspace(-11,12, 47-23), stdev_avg)
-    plt.xlabel('time relative to landfall [hours]')
-    plt.title('average standard deviation across image')
-    plt.ylabel('standard deviation [ms-1]')
-    plt.savefig(f'{folder_name}/results/{folder_name}_stdev_avg.png')
-    plt.close()
+    # plt.bar(np.linspace(-11,12, 47-23), stdev_avg)
+    # plt.xlabel('time relative to landfall [hours]')
+    # plt.title('average standard deviation across image')
+    # plt.ylabel('standard deviation [ms-1]')
+    # plt.savefig(f'{folder_name}/results/{folder_name}_stdev_avg.png')
+    # plt.close()
 
-    plt.bar(np.linspace(-11,12, 47-23), stdev_median)
-    plt.xlabel('time relative to landfall [hours]')
-    plt.title('median standard deviation across image')
-    plt.ylabel('standard deviation [ms-1]')
-    plt.savefig(f'{folder_name}/results/{folder_name}_stdev_median.png')
-    plt.close()
-
-
-
+    # plt.bar(np.linspace(-11,12, 47-23), stdev_median)
+    # plt.xlabel('time relative to landfall [hours]')
+    # plt.title('median standard deviation across image')
+    # plt.ylabel('standard deviation [ms-1]')
+    # plt.savefig(f'{folder_name}/results/{folder_name}_stdev_median.png')
+    # plt.close()
 
 
 
 
-    # plt.bar(np.linspace(24,47, 47-23), max_of_max)
-    plt.bar(np.linspace(-11,12, 47-23), max_max)
-    # plt.xlabel('time steps')
-    plt.xlabel('time relative to landfall [hours]')
-    plt.title('maximum gust speed in the image')
-    plt.ylabel('wind speed of gust [ms-1]')
-    plt.savefig(f'{folder_name}/results/{folder_name}_max_max.png')
-    plt.close()
+
+
+    # # plt.bar(np.linspace(24,47, 47-23), max_of_max)
+    # plt.bar(np.linspace(-11,12, 47-23), max_max)
+    # # plt.xlabel('time steps')
+    # plt.xlabel('time relative to landfall [hours]')
+    # plt.title('maximum gust speed in the image')
+    # plt.ylabel('wind speed of gust [ms-1]')
+    # plt.savefig(f'{folder_name}/results/{folder_name}_max_max.png')
+    # plt.close()
 
 
 
-    plt.bar(np.linspace(-11,12, 47-23), max_sum)
-    # plt.xlabel('time steps')
-    plt.xlabel('time relative to landfall [hours]')
-    plt.title('sum of all maximum gust speeds across image')
-    plt.ylabel('wind speed of gust [ms-1]')
-    plt.savefig(f'{folder_name}/results/{folder_name}_max_sum.png')
-    plt.close()
+    # plt.bar(np.linspace(-11,12, 47-23), max_sum)
+    # # plt.xlabel('time steps')
+    # plt.xlabel('time relative to landfall [hours]')
+    # plt.title('sum of all maximum gust speeds across image')
+    # plt.ylabel('wind speed of gust [ms-1]')
+    # plt.savefig(f'{folder_name}/results/{folder_name}_max_sum.png')
+    # plt.close()
 
-    plt.bar(np.linspace(-11,12, 47-23), max_avg)
-    # plt.xlabel('time steps')
-    plt.xlabel('time relative to landfall [hours]')
-    plt.title('average maximum gust speed across image')
-    plt.ylabel('wind speed of gust [ms-1]')
-    plt.savefig(f'{folder_name}/results/{folder_name}_max_avg.png')
-    plt.close()
+    # plt.bar(np.linspace(-11,12, 47-23), max_avg)
+    # # plt.xlabel('time steps')
+    # plt.xlabel('time relative to landfall [hours]')
+    # plt.title('average maximum gust speed across image')
+    # plt.ylabel('wind speed of gust [ms-1]')
+    # plt.savefig(f'{folder_name}/results/{folder_name}_max_avg.png')
+    # plt.close()
 
-    plt.bar(np.linspace(-11,12, 47-23), max_median)
-    # plt.xlabel('time steps')
-    plt.xlabel('time relative to landfall [hours]')
-    plt.title('median maximum gust speed across image')
-    plt.ylabel('wind speed of gust [ms-1]')
-    plt.savefig(f'{folder_name}/results/{folder_name}_max_median.png')
-    plt.close()
+    # plt.bar(np.linspace(-11,12, 47-23), max_median)
+    # # plt.xlabel('time steps')
+    # plt.xlabel('time relative to landfall [hours]')
+    # plt.title('median maximum gust speed across image')
+    # plt.ylabel('wind speed of gust [ms-1]')
+    # plt.savefig(f'{folder_name}/results/{folder_name}_max_median.png')
+    # plt.close()
 
 
 
 
 
     #make videos using ffmpeg
-    subprocess.call(['sh', './shellscript.sh', framerate, f'{folder_name}/images/{folder_name}_max_%02d.png',  f'{folder_name}/results/{folder_name}_max.mp4'])
-    subprocess.call(['sh', './shellscript.sh', framerate, f'{folder_name}/images/{folder_name}_stdev_%02d.png', f'{folder_name}/results/{folder_name}_stdev.mp4'])
-    subprocess.call(['sh', './shellscript.sh', framerate, f'{folder_name}/images/{folder_name}_9ensemble_members_of_same_time_stamp_%02d.png', f'{folder_name}/results/{folder_name}_9members.mp4'])
+    subprocess.call(['sh', './shellscript.sh', framerate, f'{folder_name}/images/{folder_name}_max_%02d.png',  f'{folder_name}/results/{folder_name}_max.gif'])
+    subprocess.call(['sh', './shellscript.sh', framerate, f'{folder_name}/images/{folder_name}_stdev_%02d.png', f'{folder_name}/results/{folder_name}_stdev.gif'])
+    subprocess.call(['sh', './shellscript.sh', framerate, f'{folder_name}/images/{folder_name}_9ensemble_members_of_same_time_stamp_%02d.png', f'{folder_name}/results/{folder_name}_9members.gif'])
     
