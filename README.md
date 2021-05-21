@@ -1,7 +1,10 @@
-# ADS_data
+# ADS_data 
 Applied Data Science project
 
 Data from https://oasishub.co/dataset/bangladesh-tropical-cyclone-historical-catalogue
+
+
+### Note: THIS README HAS NOT BEEN UPDATED AND THEREFORE SOME INFORMATION MIGHT CONTRADICT THE PROJECT.
 
 Variables: fg (point wind gust), prlst (mean precipitation)
 
