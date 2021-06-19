@@ -34,7 +34,7 @@ if jump == 0:
     dataindex={}
     l=0
 
-
+    only_eyes=False
     for c in range(len(cyclones)):
         dataindex[c]={}
         print(c)
@@ -83,12 +83,12 @@ if jump == 0:
         ax.contourf(im1, levels = 6, vmin = 0, vmax = 255)
         ax.set_position([0, 0, 1, 1])
         plt.axis('off')
-        plt.savefig(path_to_results + 'original_real/'+ str(item[0])+'_' + str(item[1]) + '_' + str(item[2]).jpg")
+        plt.savefig(path_to_results + 'original_real/'+ str(item[0])+'_' + str(item[1]) + '_' + str(item[2])+'.jpg')
         plt.close()
         fig, ax = plt.subplots()
         ax.contourf(im2, levels = 6, vmin = 0, vmax = 255)
         ax.set_position([0, 0, 1, 1])
         plt.axis('off')
-        plt.savefig(path_to_results + 'original_fake/'+ str(item[0])+'_' + str(item[1]) + '_' + str(item[2]).jpg")
+        plt.savefig(path_to_results + 'original_fake/'+ str(item[0])+'_' + str(item[1]) + '_' + str(item[2])+'.jpg')
         plt.close()            
 

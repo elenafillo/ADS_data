@@ -104,4 +104,8 @@ Saving data in mode trainStarting to generate data
 Loaded all cyclones 
 Got all  image pair
  Normalising the data 
+Saving data in mode trainStarting to generate data 
+Loaded all cyclones 
+Got all  image pairs, length 36
+ Normalising the data 
 Saving data in mode train
